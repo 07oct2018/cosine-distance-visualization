@@ -71,9 +71,6 @@ function normalize(points) {
 }
 
 function clusterize (props) {
-  // cosine distance between points
-  // furthest neighbor between clusters
-  // clusterization by merging 
   const {weights, clusterCount, normalization} = props;
   const preNormPoints = JSON.parse(props.points);
   const points = normalization ? normalize(preNormPoints) : preNormPoints;
