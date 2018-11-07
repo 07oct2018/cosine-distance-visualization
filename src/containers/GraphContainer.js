@@ -44,8 +44,9 @@ function getMergingCandidates(distances,clusters) {
   ).reduce(
     ( (a,c,i) => a.value > c.value ? {value:c.value,index:c.index.concat([i])} : a ),
     {value:1/0,index:[-1]}
-  ).index
+  )
 }
+
 
 function mergeClusters (clusters,mergingCandidates) {
   const [mc1,mc2] = mergingCandidates;
@@ -71,7 +72,7 @@ function normalize(points) {
 }
 
 function clusterize (props) {
-  const {weights, clusterCount, normalization} = props;
+  const {weights, clusterCount, normalization, useThreshold, threshold} = props;
   const preNormPoints = JSON.parse(props.points);
   const points = normalization ? normalize(preNormPoints) : preNormPoints;
   const distances = points.map(a =>
@@ -81,8 +82,19 @@ function clusterize (props) {
   )
   window.distances=distances;
   var clusters = points.map( (v,k) => [k]);
-  while (clusters.length>clusterCount)
-  clusters = mergeClusters(clusters,getMergingCandidates(distances,clusters));
+  if (useThreshold) {
+    var currentMaximumDistance=0;
+    var mergingAnalysis;
+    while (currentMaximumDistance < threshold) {
+      mergingAnalysis=getMergingCandidates(distances,clusters);
+      currentMaximumDistance = mergingAnalysis.value;
+      clusters = mergeClusters(clusters,mergingAnalysis.index);
+    }
+  } else {
+    while (clusters.length>clusterCount) {
+      clusters = mergeClusters(clusters,getMergingCandidates(distances,clusters).index);
+    }
+  }
   return [clusters,points];
 }
 
@@ -143,7 +155,9 @@ const MapStateToProps = (state) => ({
   points: state.points,
   weights: state.weights,
   normalization: state.normalization,
-  clusterCount: state.clusterCount
+  clusterCount: state.clusterCount,
+  useThreshold: state.useThreshold,
+  threshold: state.threshold
 })
 
 

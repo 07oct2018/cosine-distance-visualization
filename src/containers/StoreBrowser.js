@@ -6,7 +6,7 @@ class _StoreBrowser extends React.Component {
   render () {
     let myState = Object.entries(this.props.myState);
     return (
-      <table className={"table table-sm " + (this.props.hidden ? "d-none": "") } ><tbody>
+      <table className={"table table-sm " + this.props.className } ><tbody>
       {
         myState.map( (value,key) =>
             <tr key={key}>

@@ -16,7 +16,7 @@ export default class App extends React.Component {
         <ConfigPanel>
             <hr />
         </ConfigPanel>
-        <StoreBrowser hidden={true}></StoreBrowser>
+        <StoreBrowser className="d-none"></StoreBrowser>
         <ClusterBrowser ></ClusterBrowser>
         <GraphContainer></GraphContainer>
     </Container>

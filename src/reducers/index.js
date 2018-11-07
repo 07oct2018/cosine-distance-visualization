@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import validatePoints from '../util/validatePoints.js'
 
 const initialState =  {
-    points: '[[0,1,1], [0,1,7], [5,7,4], [0,5,5], [9,4,5], [7,1,2], [10,0,19], [0,12,7], [-5,-4,5], [20,10,15], [0,16,-16], [-1,9,-30], [18,0,17], [6,18,4]]',
-    weights: [1,1,1],
-    normalization: false,
-    clusterCount: 3,
-    clusterization: []
+  points: '[[0,1,1], [0,1,7], [5,7,4], [0,5,5], [9,4,5], [7,1,2], [10,0,19], [0,12,7], [-5,-4,5], [20,10,15], [0,16,-16], [-1,9,-30], [18,0,17], [6,18,4]]',
+  weights: [1,1,1],
+  normalization: false,
+  clusterCount: 3,
+  clusterization: [],
+  useThreshold: false,
+  threshold: 0.5
 };
 
 
@@ -29,6 +31,7 @@ const weights = (weights = initialState.weights, action) => {
       return weights
   }
 }
+
 const normalization = (normalization = initialState.normalization, action) => {
   switch (action.type) {
     case 'UPDATE_NORMALIZATION':
@@ -47,6 +50,24 @@ const clusterCount = (clusterCount = initialState.clusterCount, action) => {
   }
 }
 
+const useThreshold = (useThreshold = initialState.useThreshold, action) => {
+  switch (action.type) {
+    case 'UPDATE_USETHRESHOLD':
+      return action.value
+    default:
+      return useThreshold
+  }
+}
+
+const threshold = (threshold = initialState.threshold, action) => {
+  switch (action.type) {
+    case 'UPDATE_THRESHOLD':
+      return Number(action.value)
+    default:
+      return threshold
+  }
+}
+
 const clusterization = (clusterization = initialState.clusterization, action) => {
   switch (action.type) {
     case 'UPDATE_CLUSTERIZATION':
@@ -61,5 +82,7 @@ export default combineReducers({
   weights,
   normalization,
   clusterCount,
-  clusterization
+  clusterization,
+  useThreshold,
+  threshold
 })
