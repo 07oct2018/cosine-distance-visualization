@@ -15,10 +15,11 @@ class _ClusterBrowser extends React.Component {
         </thead>
         <tbody>
         {
+          
           this.props.clusterization.map( (value,key) =>
               <tr key={key}>
                 <td>{key}</td>
-                <td><p>{value.map(e => points[e].toString()).join("; ")}</p></td>
+                <td><p>{value.map(e => ( points[e] != undefined ? points[e].toString() : "")).join("; ")}</p></td>
               </tr>
           )
         }
